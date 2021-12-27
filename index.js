@@ -42,6 +42,10 @@ app.get('/news', (req, res) => {
     res.json(articles)
 })
 
+app.get('/search', (req, res) => {
+    res.sendFile(__dirname + "/search.html");
+})
+
 app.get('/news/:newspaperId', (req, res) => {
     const newspaperId = req.params.newspaperId
 
