@@ -13,6 +13,7 @@ const newspapers = [
 ]
 
 const articles = []
+const articlesdeath = []
 
 newspapers.forEach(newspaper => {
     axios.get(newspaper.address)
@@ -34,6 +35,26 @@ newspapers.forEach(newspaper => {
         })
 })
 
+newspapers.forEach(newspaper => {
+    axios.get(newspaper.address)
+        .then(response => {
+            const html = response.data
+            const $ = cheerio.load(html)
+
+            $('a:contains("die")', html).each(function () {
+                const title = $(this).text()
+                const url = $(this).attr('href')
+
+                articlesdeath.push({
+                    title,
+                    url: newspaper.base + url,
+                    source: newspaper.name
+                })
+            })
+
+        })
+})
+
 app.get('/', (req, res) => {
     res.json('Welcome to my Covid API')
 })
@@ -41,9 +62,16 @@ app.get('/', (req, res) => {
 app.get('/news', (req, res) => {
     res.json(articles)
 })
+app.get('/death', (req, res) => {
+    res.json(articlesdeath)
+})
 
 app.get('/search', (req, res) => {
     res.sendFile(__dirname + "/search.html");
+})
+
+app.get('/help', (req, res) => {
+    res.sendFile(__dirname + "/help.html");
 })
 
 app.get('/news/:newspaperId', (req, res) => {
