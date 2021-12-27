@@ -1,4 +1,4 @@
-const PORT = process.env.PORT || 8000
+const PORT = process.env.PORT || 8001
 const express = require('express')
 const axios = require('axios')
 const cheerio = require('cheerio')
@@ -67,11 +67,11 @@ app.get('/death', (req, res) => {
 })
 
 app.get('/search', (req, res) => {
-    res.sendFile(__dirname + "/search.html");
+    res.sendFile(__dirname + "/public/search.html");
 })
 
 app.get('/help', (req, res) => {
-    res.sendFile(__dirname + "/help.html");
+    res.sendFile(__dirname + "/public/help.html");
 })
 
 app.get('/news/:newspaperId', (req, res) => {
